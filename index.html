@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Deep Mine: Clean UI Edition</title>
+    <title>Deep Mine: Mega Skin Edition</title>
     <style>
         :root { 
             --accent: #f1c40f; 
@@ -56,7 +56,7 @@
             min-height: 140px; transition: 0.3s;
         }
         .item.active { border-color: var(--accent); background: rgba(241,196,15,0.15); }
-        .item canvas { margin-bottom: 5px; }
+        .item canvas { margin-bottom: 5px; pointer-events: none; }
         .item-name { font-size: 13px; font-weight: 800; margin: 4px 0; color: #eee; }
         .item-price { color: var(--price); font-weight: 900; font-size: 14px; }
 
@@ -116,44 +116,85 @@ const ctx = canvas.getContext('2d');
 
 const MATERIALS = [
     { id: 0, name: "Ветка", color: "#5d4037", head: "#8d6e63", dmg: 1, cost: 0, owned: true },
-    { id: 1, name: "Сланец", color: "#37474f", head: "#90a4ae", dmg: 15, cost: 300, owned: false },
-    { id: 2, name: "Медь", color: "#4e342e", head: "#ff7043", dmg: 70, cost: 2500, owned: false },
-    { id: 3, name: "Сталь", color: "#263238", head: "#cfd8dc", dmg: 300, cost: 15000, owned: false },
-    { id: 4, name: "Золото", color: "#ff8f00", head: "#fff176", dmg: 1000, cost: 60000, owned: false },
-    { id: 5, name: "Алмаз", color: "#00838f", head: "#4dd0e1", dmg: 4000, cost: 300000, owned: false },
-    { id: 6, name: "Незерит", color: "#212121", head: "#b388ff", dmg: 15000, cost: 1200000, owned: false }
+    { id: 1, name: "Сланец", color: "#37474f", head: "#90a4ae", dmg: 20, cost: 400, owned: false },
+    { id: 2, name: "Медь", color: "#4e342e", head: "#ff7043", dmg: 85, cost: 3000, owned: false },
+    { id: 3, name: "Сталь", color: "#263238", head: "#cfd8dc", dmg: 350, cost: 18000, owned: false },
+    { id: 4, name: "Золото", color: "#ff8f00", head: "#fff176", dmg: 1200, cost: 80000, owned: false },
+    { id: 5, name: "Алмаз", color: "#00838f", head: "#4dd0e1", dmg: 5000, cost: 400000, owned: false },
+    { id: 6, name: "Незерит", color: "#212121", head: "#b388ff", dmg: 20000, cost: 2000000, owned: false }
 ];
 
 const SKINS = [
     { id: 0, name: "Классика", h: null, style: 'normal', cost: 0, owned: true },
-    { id: 1, name: "Minecraft", h: "#4caf50", style: 'pixel', cost: 1000, owned: false },
-    { id: 2, name: "LEGO", h: "#f44336", style: 'lego', cost: 5000, owned: false },
-    { id: 3, name: "Lightsaber", h: "#00e5ff", style: 'saber', cost: 150000, owned: false },
-    { id: 4, name: "Neon", h: "#ff00ff", style: 'saber', cost: 400000, owned: false },
-    { id: 5, name: "Diamond", h: "#ffffff", style: 'diamond', cost: 1000000, owned: false }
+    { id: 1, name: "Лесной страж", h: "#2e7d32", style: 'pixel', cost: 800, owned: false },
+    { id: 2, name: "Костяная", h: "#e0e0e0", style: 'pixel', cost: 1500, owned: false },
+    { id: 3, name: "Оригами", h: "#ffffff", style: 'diamond', cost: 2500, owned: false },
+    { id: 4, name: "Minecraft", h: "#4caf50", style: 'pixel', cost: 5000, owned: false },
+    { id: 5, name: "LEGO", h: "#f44336", style: 'lego', cost: 15000, owned: false },
+    { id: 6, name: "Lightsaber", h: "#00e5ff", style: 'saber', cost: 100000, owned: false },
+    { id: 7, name: "Neon Rage", h: "#ff00ff", style: 'saber', cost: 300000, owned: false },
+    { id: 8, name: "Cyber Scythe", h: "#00ffa2", style: 'scythe', cost: 700000, owned: false },
+    { id: 9, name: "Royal Gold", h: "#ffeb3b", style: 'diamond', cost: 1200000, owned: false },
+    { id: 10, name: "Blood Edge", h: "#ff1744", style: 'saber', cost: 1800000, owned: false },
+    { id: 11, name: "Frost Bite", h: "#e1f5fe", style: 'diamond', cost: 2500000, owned: false },
+    { id: 12, name: "Steam Punk", h: "#795548", style: 'lego', cost: 3200000, owned: false },
+    { id: 13, name: "Obsidian", h: "#311b92", style: 'pixel', cost: 4500000, owned: false },
+    { id: 14, name: "Призрачный клинок", h: "rgba(255,255,255,0.3)", style: 'saber', cost: 6000000, owned: false },
+    { id: 15, name: "Адский жнец", h: "#bf360c", style: 'scythe', cost: 8000000, owned: false },
+    { id: 16, name: "Void Eater", h: "#000000", style: 'void', cost: 10000000, owned: true } 
 ];
 
 const BLOCKS_CONFIG = {
-    stone: { c: '#424242', o: '#616161', v: 5 },
-    coal: { c: '#1a1a1a', o: '#000000', v: 20 },
-    iron: { c: '#90a4ae', o: '#eceff1', v: 80 },
-    gold: { c: '#ffc107', o: '#fffde7', v: 250 },
-    diamond: { c: '#00bcd4', o: '#e0f7fa', v: 1000 },
-    netherite: { c: '#311b92', o: '#b388ff', v: 5000 }
+    stone: { c: '#424242', o: '#616161', v: 6 },
+    coal: { c: '#1a1a1a', o: '#000000', v: 25 },
+    iron: { c: '#90a4ae', o: '#eceff1', v: 95 },
+    gold: { c: '#ffc107', o: '#fffde7', v: 300 },
+    diamond: { c: '#00bcd4', o: '#e0f7fa', v: 1200 },
+    netherite: { c: '#311b92', o: '#b388ff', v: 6000 }
 };
 
-const PROMO_CODES = { 'START': 1000, 'GEMINI': 10000, 'MAX': 5000000 };
+const PROMO_CODES = { 
+    'START': {m: 1000}, 
+    'GEMINI': {m: 10000}, 
+    'BOOST30': {m: 30000},
+    'MAX': {m: 5000000},
+    'SKINS': {m: 50000},
+    'VOID': {m: 0, s: 16},
+    'WOOD': {m: 0, s: 1},
+    'BONE': {m: 0, s: 2},
+    'PAPER': {m: 0, s: 3}
+};
 
 let state = {
     money: 0, depth: 0, active: false,
     matId: 0, skinId: 0, pickAnim: 0,
     luckLvl: 1, speedLvl: 1, shake: 0,
-    usedPromos: [], block: null, particles: [], coins: []
+    usedPromos: [], block: null, particles: []
 };
+
+function save() {
+    const data = {
+        m: state.money, d: state.depth, mi: state.matId, si: state.skinId,
+        ll: state.luckLvl, sl: state.speedLvl, up: state.usedPromos,
+        om: MATERIALS.filter(x => x.owned).map(x => x.id),
+        os: SKINS.filter(x => x.owned).map(x => x.id)
+    };
+    localStorage.setItem('deep_mine_mega', JSON.stringify(data));
+}
+
+function load() {
+    const data = JSON.parse(localStorage.getItem('deep_mine_mega'));
+    if(!data) return;
+    state.money = data.m; state.depth = data.d; state.matId = data.mi; state.skinId = data.si;
+    state.luckLvl = data.ll; state.speedLvl = data.sl; state.usedPromos = data.up || [];
+    data.om.forEach(id => { if(MATERIALS[id]) MATERIALS[id].owned = true; });
+    data.os.forEach(id => { if(SKINS[id]) SKINS[id].owned = true; });
+}
 
 function init() {
     window.onresize = () => { canvas.width = innerWidth; canvas.height = innerHeight; };
     window.onresize();
+    load();
     updateUI();
     loop();
 }
@@ -185,25 +226,51 @@ function openPromo() {
 
 function checkPromo() {
     const code = document.getElementById('promo-field').value.toUpperCase().trim();
-    if (state.usedPromos.includes(code)) alert("Уже введён!");
-    else if (PROMO_CODES[code]) {
-        state.money += PROMO_CODES[code];
+    if (state.usedPromos.includes(code)) {
+        alert("Уже использовано!");
+    } else if (PROMO_CODES[code]) {
+        const reward = PROMO_CODES[code];
+        state.money += reward.m;
+        if(reward.s !== undefined) {
+            SKINS[reward.s].owned = true;
+            alert(`Скин "${SKINS[reward.s].name}" разблокирован!`);
+        } else {
+            alert(`Получено $${reward.m.toLocaleString()}!`);
+        }
         state.usedPromos.push(code);
-        updateUI(); showHome();
-    } else alert("Ошибка!");
+        save(); updateUI(); showHome();
+        document.getElementById('promo-field').value = "";
+    } else {
+        alert("Неверный код!");
+    }
 }
 
 function renderShop() {
     const container = document.getElementById('shop-content');
     container.innerHTML = '';
+    const titles = { upgrades: 'КИРКИ', skins: 'СКИНЫ', skills: 'ПРОКАЧКА' };
+    document.getElementById('shop-title').innerText = titles[state.shopType];
     
     if (state.shopType === 'skills') {
-        [{id:'luck', n:'Удача', l:state.luckLvl}, {id:'speed', n:'Скорость', l:state.speedLvl}].forEach(s => {
-            const cost = Math.floor(250 * Math.pow(1.7, s.l - 1));
+        const skills = [
+            {id:'luck', n:'Множитель прибыли', l:state.luckLvl}, 
+            {id:'speed', n:'Скорость замаха', l:state.speedLvl}
+        ];
+        skills.forEach(s => {
+            const cost = Math.floor(300 * Math.pow(1.85, s.l - 1));
             const div = document.createElement('div');
             div.className = 'item';
-            div.innerHTML = `<div class="lvl-tag">LVL ${s.l}</div><div class="item-name">${s.n}</div><div class="item-price">${s.l >= 30 ? 'MAX' : '$'+cost.toLocaleString()}</div>`;
-            div.onclick = () => { if(s.l < 30 && state.money >= cost) { state.money -= cost; if(s.id==='luck') state.luckLvl++; else state.speedLvl++; updateUI(); renderShop(); }};
+            div.innerHTML = `<div style="height:20px"></div>
+                             <div class="item-name">${s.n}</div>
+                             <div style="font-size:11px; color:#888; margin-bottom:5px">Уровень: ${s.l}</div>
+                             <div class="item-price">${s.l >= 50 ? 'MAX' : '$'+cost.toLocaleString()}</div>`;
+            div.onclick = () => { 
+                if(s.l < 50 && state.money >= cost) { 
+                    state.money -= cost; 
+                    if(s.id==='luck') state.luckLvl++; else state.speedLvl++; 
+                    save(); updateUI(); renderShop(); 
+                }
+            };
             container.appendChild(div);
         });
         return;
@@ -214,87 +281,76 @@ function renderShop() {
         const isCur = state.shopType === 'upgrades' ? state.matId === item.id : state.skinId === item.id;
         const div = document.createElement('div');
         div.className = `item ${isCur ? 'active' : ''}`;
-        
         const canvasId = `can-${state.shopType}-${item.id}`;
         div.innerHTML = `<canvas id="${canvasId}" width="80" height="70"></canvas>
                          <div class="item-name">${item.name}</div>
-                         <div class="item-price">${item.owned ? 'ВЫБРАНО' : '$'+item.cost.toLocaleString()}</div>`;
-        
+                         <div class="item-price">${item.owned ? (isCur ? 'В РУКАХ' : 'ВЫБРАТЬ') : '$'+item.cost.toLocaleString()}</div>`;
         div.onclick = () => {
             if (item.owned) { 
                 if (state.shopType === 'upgrades') state.matId = item.id; else state.skinId = item.id; 
             } else if (state.money >= item.cost) { 
-                state.money -= item.cost; item.owned = true; updateUI(); 
+                state.money -= item.cost; item.owned = true; 
             }
-            renderShop();
+            save(); updateUI(); renderShop();
         };
         container.appendChild(div);
-
-        // Рендер иконки
         setTimeout(() => {
             const pcan = document.getElementById(canvasId);
             if(!pcan) return;
             const pctx = pcan.getContext('2d');
-            pctx.clearRect(0,0,80,70); // Очистка холста перед рисованием
-            pctx.save();
-            pctx.translate(40, 55);
-            pctx.rotate(-Math.PI/4);
+            pctx.save(); pctx.translate(40, 50); pctx.rotate(-Math.PI/4);
             const m = state.shopType === 'upgrades' ? item : MATERIALS[state.matId];
             const s = state.shopType === 'skins' ? item : SKINS[state.skinId];
-            drawPickModel(pctx, m, s, 0.3);
+            drawPickModel(pctx, m, s, 0.25);
             pctx.restore();
-        }, 5);
+        }, 15);
     });
 }
 
 function drawPickModel(pctx, mat, skin, scale) {
     pctx.save();
     pctx.scale(scale, scale);
-    
-    // Рукоятка
     pctx.fillStyle = mat.color;
-    pctx.beginPath();
-    pctx.roundRect(-8, 0, 16, 170, 5);
-    pctx.fill();
+    pctx.beginPath(); pctx.roundRect(-10, 0, 20, 180, 8); pctx.fill();
 
     const headColor = skin.h || mat.head;
     pctx.fillStyle = headColor;
     
-    if(skin.style === 'saber') {
-        pctx.shadowBlur = 20; pctx.shadowColor = headColor;
-        pctx.fillStyle = "#fff";
-        pctx.roundRect(-12, -190, 24, 190, 12); pctx.fill();
-        pctx.strokeStyle = headColor; pctx.lineWidth = 4; pctx.stroke();
+    if(skin.style === 'saber' || skin.style === 'void') {
+        pctx.shadowBlur = 30; pctx.shadowColor = headColor;
+        if(skin.style === 'void') { pctx.shadowColor = '#8e44ad'; pctx.fillStyle = '#111'; }
+        else pctx.fillStyle = skin.h || "#fff";
+        pctx.roundRect(-14, -200, 28, 200, 14); pctx.fill();
+        pctx.strokeStyle = headColor; pctx.lineWidth = 6; pctx.stroke();
     } else if(skin.style === 'pixel') {
-        pctx.fillRect(-100, -10, 200, 40);
-        pctx.fillRect(-25, 30, 50, 30);
+        pctx.fillRect(-110, -20, 220, 50); pctx.fillRect(-30, 30, 60, 40);
     } else if(skin.style === 'diamond') {
-        pctx.beginPath(); pctx.moveTo(-130, 10); pctx.lineTo(0,-70); pctx.lineTo(130, 10); pctx.lineTo(0,40); pctx.fill();
+        pctx.beginPath(); pctx.moveTo(-140, 20); pctx.lineTo(0,-80); pctx.lineTo(140, 20); pctx.lineTo(0,60); pctx.fill();
+    } else if(skin.style === 'scythe') {
+        pctx.beginPath(); pctx.moveTo(0,0); pctx.bezierCurveTo(120,-150, 200,50, 40,60); pctx.fill();
+    } else if(skin.style === 'lego') {
+        pctx.fillRect(-100, -30, 200, 60); pctx.fillRect(-80, -50, 40, 20); pctx.fillRect(40, -50, 40, 20);
     } else {
-        pctx.beginPath();
-        pctx.moveTo(-110, 5);
-        pctx.bezierCurveTo(-110, -70, 110, -70, 110, 5);
-        pctx.lineTo(35, 45); pctx.lineTo(-35, 45);
-        pctx.fill();
+        pctx.beginPath(); pctx.moveTo(-120, 10); pctx.bezierCurveTo(-120, -80, 120, -80, 120, 10); pctx.lineTo(40, 50); pctx.lineTo(-40, 50); pctx.fill();
     }
     pctx.restore();
 }
 
 function spawnBlock() {
     const keys = Object.keys(BLOCKS_CONFIG);
-    const b = BLOCKS_CONFIG[keys[Math.min(keys.length - 1, Math.floor(state.depth / 15))]];
-    state.block = { ...b, hp: (50 + state.depth * 50), max: (50 + state.depth * 50) };
+    const b = BLOCKS_CONFIG[keys[Math.min(keys.length - 1, Math.floor(state.depth / 12))]];
+    const hp = (50 + state.depth * 70) * Math.pow(1.06, Math.floor(state.depth/4));
+    state.block = { ...b, hp: hp, max: hp };
 }
 
 function mine() {
-    if (!state.active) return;
-    state.pickAnim = 1.0; state.shake = 10;
-    const dmg = MATERIALS[state.matId].dmg * (1 + (state.speedLvl - 1) * 0.2);
-    state.block.hp -= dmg;
-    for(let i=0; i<5; i++) state.particles.push({x:innerWidth/2, y:innerHeight/2, vx:(Math.random()-0.5)*15, vy:(Math.random()-0.5)*15, c:state.block.c, l:15});
+    if (!state.active || state.pickAnim > 0.1) return;
+    state.pickAnim = 1.0; state.shake = 14;
+    state.block.hp -= MATERIALS[state.matId].dmg;
+    for(let i=0; i<6; i++) state.particles.push({x:innerWidth/2, y:innerHeight/2, vx:(Math.random()-0.5)*20, vy:(Math.random()-0.5)*20, c:state.block.c, l:20});
     if (state.block.hp <= 0) {
-        state.money += state.block.v * (state.depth+1) * 5 * (1+(state.luckLvl-1)*0.25);
-        state.depth++; spawnBlock(); updateUI();
+        state.money += Math.floor(state.block.v * (state.depth + 1) * 5 * (1 + (state.luckLvl - 1) * 0.4));
+        state.depth++; spawnBlock(); save(); updateUI();
     }
 }
 
@@ -308,26 +364,26 @@ function loop() {
     if (state.active && state.block) {
         const cx = innerWidth/2, cy = innerHeight/2;
         const pct = Math.max(0, state.block.hp / state.block.max);
-        
         ctx.save();
-        if(state.shake > 0) { ctx.translate((Math.random()-0.5)*state.shake, (Math.random()-0.5)*state.shake); state.shake *= 0.85; }
-        ctx.fillStyle = state.block.c; ctx.roundRect(cx-80, cy-80, 160, 160, 15); ctx.fill();
-        ctx.fillStyle = 'rgba(255,255,255,0.05)'; ctx.roundRect(cx-90, cy+130, 180, 12, 6); ctx.fill();
-        ctx.fillStyle = pct > 0.4 ? '#2ecc71' : '#e74c3c'; ctx.roundRect(cx-90, cy+130, 180*pct, 12, 6); ctx.fill();
+        if(state.shake > 0) { ctx.translate((Math.random()-0.5)*state.shake, (Math.random()-0.5)*state.shake); state.shake *= 0.88; }
+        ctx.fillStyle = state.block.c; ctx.beginPath(); ctx.roundRect(cx-85, cy-85, 170, 170, 20); ctx.fill();
+        ctx.fillStyle = 'rgba(255,255,255,0.1)'; ctx.roundRect(cx-100, cy+140, 200, 12, 6); ctx.fill();
+        ctx.fillStyle = pct > 0.4 ? '#2ecc71' : '#e74c3c'; ctx.roundRect(cx-100, cy+140, 200*pct, 12, 6); ctx.fill();
         ctx.restore();
 
         state.particles.forEach((p, i) => {
-            p.x += p.vx; p.y += p.vy; p.vy += 0.8; p.l--; ctx.fillStyle = p.c; ctx.fillRect(p.x, p.y, 4, 4);
+            p.x += p.vx; p.y += p.vy; p.vy += 0.7; p.l--; ctx.fillStyle = p.c; ctx.fillRect(p.x, p.y, 5, 5);
             if(p.l <= 0) state.particles.splice(i, 1);
         });
 
         const swing = Math.sin(state.pickAnim * Math.PI);
         ctx.save();
-        ctx.translate(innerWidth*0.8 + swing*40, innerHeight*0.7 + swing*40);
+        ctx.translate(innerWidth*0.8 + swing*50, innerHeight*0.7 + swing*50);
         ctx.rotate(-0.4 + swing*1.6);
-        drawPickModel(ctx, MATERIALS[state.matId], SKINS[state.skinId], 1.2);
+        drawPickModel(ctx, MATERIALS[state.matId], SKINS[state.skinId], 1.3);
         ctx.restore();
-        if(state.pickAnim > 0) state.pickAnim *= 0.82;
+        const recovery = 0.8 + (state.speedLvl * 0.005);
+        if(state.pickAnim > 0) state.pickAnim *= Math.min(0.96, recovery);
     }
     requestAnimationFrame(loop);
 }
